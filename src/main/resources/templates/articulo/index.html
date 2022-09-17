@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es" class="has-navbar-fixed-top"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla :: header(~{::title}, ~{::link})">
+    <title>Listado Artículos - MonteSanto.cl'</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<nav th:replace="plantilla :: navbar"></nav>
+<section class="section">
+    <div class="container content">
+        <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="title">Artículos Publicados</p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <a class="button is-info" th:href="@{/Articulo/Busqueda}" target="_self">Buscar</a>
+                </div>
+                <div sec:authorize="hasAuthority('Administrador')">
+                    <div class="level-item">
+                        <a class="button is-success" th:href="@{/Administracion/Articulo/Nuevo}" target="_self">Nuevo Artículo</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <article class="media box" th:each="articulo : ${Articulos}">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                    <img th:src="'/img/miembros/' + ${articulo.getPublicador().getId()} + '.png'">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <div>
+                        <strong th:text="${articulo.getTitulo()}"></strong> &nbsp;
+                        <small th:text="${articulo.getPublicador().getNombreUsuario()}"></small> &nbsp;
+                        <span th:utext="${articulo.getTipo().getTag()}"></span> &nbsp;
+                        <span class="tag is-info" th:text="${articulo.getArticuloAt()}"></span>
+                        <div th:if="${!articulo.getIntroduccion().isEmpty()}">
+                            <hr>
+                            <p th:utext="${articulo.getIntroduccionSaltos()}"></p>
+                        </div>
+                        <div class="pt-4 pb-4">
+                            <a th:href="@{/Articulo/Etiqueta/{etiqueta}(etiqueta=${etiqueta})}" th:each="etiqueta : ${articulo.getEtiquetas()}">
+                                <span class="tag is-info" th:text="${etiqueta}"></span>
+                            </a>
+                        </div>
+                        <a class="button is-info is-outlined" th:href="@{/Articulo/{path}(path=${articulo.getId()})}">Seguir Leyendo...</a>
+                    </div>
+                </div>
+            </div>
+            <div class="media-right"></div>
+        </article>
+    </div>
+</section>
+<div th:replace="plantilla :: footer(~{::script})">
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+</div>
+</body>
+</html>

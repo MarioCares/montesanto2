@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es" class="has-navbar-fixed-top"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla :: header(~{::title}, ~{::link})">
+    <title th:text="${Articulo.getTitulo()} + ' - MonteSanto.cl'"></title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<nav th:replace="plantilla :: navbar"></nav>
+<section class="section">
+    <div class="container content">
+        <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="title" th:text="${Articulo.getTitulo()}"></p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <a th:href="@{/Articulos/Listado}" class="button is-primary">Ir a Inicio</a>
+                </div>
+            </div>
+        </nav>
+        <div class="box">
+            <h1 class="title is-4">Introducción</h1>
+            <div th:utext="${Articulo.getIntroduccionSaltos()}"></div>
+        </div>
+        <div class="box" th:utext="${Articulo.getTextoSaltos()}"></div>
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Autor</p>
+                    <p class="title">
+                        <a th:href="@{/Articulo/Autor/{autor}(autor=${Articulo.getAutorOriginal()})}">
+                            <span th:text="${Articulo.getAutorOriginal()}"></span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Publicado en</p>
+                    <p class="title">
+                        <a th:href="${Articulo.getPublicadoOriginalmente()}" target="_blank">
+                            <span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                            <span>Visitar</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <article class="message is-info">
+            <div class="message-body">
+                <h1 class="title is-3">¿Quieres dejar un comentario?</h1>
+                <a th:href="@{/login}" target="_self">Inicia Sesión</a> o
+                <a th:href="@{/registro}" target="_self">Crea una cuenta!</a>
+            </div>
+        </article>
+    </div>
+    <div th:if="${!Comentarios.isEmpty()}">
+        <h1 class="title is-4">Comentarios</h1>
+        <article class="media" th:each="comentario : ${Comentarios}">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                    <img th:src="'/img/miembros/' + ${comentario.getComentador().getId()} + '.png'">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <div>
+                        <strong th:text="${comentario.getComentador().getNombreUsuario()}"></strong>&nbsp;
+                        <span class="tag is-primary is-light" th:text="${comentario.getArticuloAt()}"></span>
+                        <p th:utext="${comentario.getTextoSaltos()}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="media-right"></div>
+        </article>
+    </div>
+    <hr />
+    <div sec:authorize="isAuthenticated()">
+        <h1 class="title is-4">Quieres comentar algo?</h1>
+        <form th:action="@{/Articulo/Comentario}" method="post" th:object="${formData}">
+            <input type="hidden" name="comentador" th:value="${Comentador}" />
+            <input type="hidden" name="articulo" th:value="${Articulo.getId()}" />
+            <div class="field">
+                <label for="comentario" class="label">Comentario</label>
+                <div class="control">
+                    <textarea th:field="*{texto}" id="comentario" class="textarea"></textarea>
+                </div>
+                <p th:if="${#fields.hasErrors('texto')}" class="help is-danger"
+                   th:text="${#strings.listJoin(#fields.errors('texto'), ', ')}">
+                </p>
+            </div>
+            <article class="message is-info">
+                <div class="message-body">
+                    El comentario puede ser eliminado por el Administrador
+                </div>
+            </article>
+            <button class="button is-success" type="submit">Comentar</button>
+        </form>
+    </div>
+</section>
+<div th:replace="plantilla :: footer(~{::script})">
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+</div>
+</body>
+</html>

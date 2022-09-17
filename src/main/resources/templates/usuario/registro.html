@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla :: header(~{::title}, ~{::link})">
+    <title>Registro Usuarios - MonteSanto.cl</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<section class="hero is-fullheight">
+    <div th:if="${param.error}">
+        <div class="notification is-danger">
+            <strong th:text="${param.error}"></strong>
+        </div>
+    </div>
+    <div class="hero-body has-text-centered">
+        <div class="login">
+            <img th:src="@{/img/usericon.png}" width="325px" />
+            <form th:action="@{/registro}" th:method="POST" th:object="${formData}">
+                <div class="field">
+                    <label for="nombre" class="label">Nombre de Usuario</label>
+                    <span>Un apodo para identificarte</span>
+                    <div class="control">
+                        <input class="input" id="nombre" name="nombre" th:field="*{nombreUsuario}" />
+                    </div>
+                    <p th:if="${#fields.hasErrors('nombreUsuario')}" class="help is-danger"
+                       th:text="${#strings.listJoin(#fields.errors('nombreUsuario'), ', ')}">
+                    </p>
+                </div>
+                <div class="field">
+                    <label for="email" class="label">eMail</label>
+                    <span>Por si olvidas tu contraseña</span>
+                    <div class="control">
+                        <input class="input" id="email" name="email" th:field="*{email}" />
+                    </div>
+                    <p th:if="${#fields.hasErrors('email')}" class="help is-danger"
+                       th:text="${#strings.listJoin(#fields.errors('email'), ', ')}">
+                    </p>
+                </div>
+                <div class="field">
+                    <label for="password" class="label">Contraseña</label>
+                    <div class="control">
+                        <input class="input" id="password" name="password" type="password" th:field="*{contrasegna}" />
+                    </div>
+                    <p th:if="${#fields.hasErrors('contrasegna')}" class="help is-danger"
+                       th:text="${#strings.listJoin(#fields.errors('contrasegna'), ', ')}">
+                    </p>
+                </div>
+                <button type="submit" class="button is-success">Guardar</button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

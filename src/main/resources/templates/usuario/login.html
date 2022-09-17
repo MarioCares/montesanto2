@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla :: header(~{::title}, ~{::link})">
+    <title>Ingreso Miembros - MonteSanto.cl</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<!--<nav th:replace="plantilla :: navbar"></nav>-->
+<section class="hero is-fullheight">
+    <div th:if="${param.error}">
+        <div class="notification is-danger">
+            <strong th:text="${param.error}"></strong>
+        </div>
+    </div>
+    <div class="hero-body has-text-centered">
+        <div class="login">
+            <img th:src="@{/img/usericon.png}" width="325px" />
+            <form th:action="@{/login}" method="post">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-medium is-rounded" placeholder="Nombre de Usuario" name="username" required />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-medium is-rounded" type="password" placeholder="**********" name="password" required />
+                    </div>
+                </div>
+                <br />
+                <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit">
+                    Login
+                </button>
+            </form>
+            <br>
+            <nav class="level">
+                <div class="level-item has-text-centered">
+                    <div>
+                        <a href="#">¿Contraseña?</a>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div>
+                        <a th:href="@{/registro}">Crear Usuario</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>
+</body>
+</html>

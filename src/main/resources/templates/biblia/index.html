@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es" class="has-navbar-fixed-top"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla :: header(~{::title}, ~{::link})">
+    <title>Biblia Online - MonteSanto.cl'</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<nav th:replace="plantilla :: navbar"></nav>
+<section class="section">
+    <div class="container content">
+        <div class="tile is-ancestor">
+            <div class="tile is-6 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <p class="title">Búsqueda de Versículo</p>
+                    <form th:action="@{/Biblia/Busqueda/Coordenada}" method="post">
+                        <div class="field is-grouped">
+                            <div class="control is-expanded">
+                                <input class="input" name="coordenada" placeholder="Ej: Salmo 100:4" />
+                            </div>
+                            <div class="control">
+                                <button class="button is-info" type="submit">
+                                    <span class="icon"><i class="fa-solid fa-magnifying-glass-location"></i></span>
+                                    <span>Buscar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <h1 class="title is-3">Puedes buscar</h1>
+                    <ul>
+                        <li>Un capítulo completo con: <strong>Salmo 100 o Sal 100</strong></li>
+                        <li>Un versículo en particular con: <strong>Salmo 100:1</strong></li>
+                        <li>Un rango de versículos con: <strong>Salmo 100:1-3</strong> (versículos 1 al 3)</li>
+                        <li>Más de un versículo, mientras estén separados con comas (,): <strong>Salmo 100:1, Juan 3:16</strong></li>
+                        <li>
+                            <span>Para ver un listado de abreviaturas disponibles, click aquí</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tile is-child box">
+                    <p class="title">Two</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <p class="title">Three</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend, nunc dui porta orci, quis semper odio felis ut quam.</p>
+                    <p>Suspendisse varius ligula in molestie lacinia. Maecenas varius eget ligula a sagittis. Pellentesque interdum, nisl nec interdum maximus, augue diam porttitor lorem, et sollicitudin felis neque sit amet erat. Maecenas imperdiet felis nisi, fringilla luctus felis hendrerit sit amet. Aenean vitae gravida diam, finibus dignissim turpis. Sed eget varius ligula, at volutpat tortor.</p>
+                    <p>Integer sollicitudin, tortor a mattis commodo, velit urna rhoncus erat, vitae congue lectus dolor consequat libero. Donec leo ligula, maximus et pellentesque sed, gravida a metus. Cras ullamcorper a nunc ac porta. Aliquam ut aliquet lacus, quis faucibus libero. Quisque non semper leo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="plantilla :: footer(~{::script})">
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+</div>
+</body>
+</html>
